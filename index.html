@@ -1,88 +1,311 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>نظام عمليات الإسعاف</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #17324d;
-    }
-    header {
-      background: #12304a;
-      color: white;
-      padding: 24px;
-    }
-    main {
-      max-width: 1000px;
-      margin: 24px auto;
-      padding: 16px;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #00000010;
-    }
-    .number {
-      font-size: 30px;
-      font-weight: bold;
-      color: #087f8c;
-    }
-    .note {
-      background: #fff7df;
-      padding: 16px;
-      border-radius: 10px;
-      margin-top: 20px;
-      line-height: 1.8;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مركز عمليات الإسعاف | EMS</title>
+<style>
+:root{
+  --navy:#102a43;--blue:#246bfd;--teal:#0c9b91;
+  --bg:#f3f6fb;--white:#fff;--text:#23364d;
+  --muted:#7b8ba1;--line:#e5ebf3;--red:#e34d59;
+  --shadow:0 5px 22px rgba(30,55,90,.055)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:flex}
+.sidebar{width:245px;background:var(--navy);color:white;padding:25px 16px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 8px 28px;border-bottom:1px solid #ffffff1c}
+.logo{width:44px;height:44px;border-radius:14px;background:#246bfd;display:grid;place-items:center;font-size:24px}
+.brand h2{font-size:16px;margin:0 0 5px}
+.brand small{color:#afc1d6}
+.nav-label{font-size:11px;color:#829bb5;margin:26px 12px 10px}
+.nav{display:flex;flex-direction:column;gap:7px}
+.nav button{border:0;background:transparent;color:#c4d2e2;padding:13px 12px;border-radius:10px;text-align:right;display:flex;gap:12px;align-items:center}
+.nav button:hover,.nav button.active{background:#ffffff17;color:white}
+.nav button.active{box-shadow:inset -3px 0 #54b9ff}
+.nav-icon{width:23px;text-align:center;font-size:18px}
+.sidebar-foot{margin-top:35px;padding:14px;border:1px solid #ffffff20;border-radius:12px;font-size:12px;color:#b6c9dc;line-height:1.9}
+.main{min-width:0;flex:1}
+.topbar{background:white;border-bottom:1px solid var(--line);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.top-left{display:flex;align-items:center;gap:14px}
+.avatar{width:38px;height:38px;border-radius:50%;background:#e5efff;color:#246bfd;display:grid;place-items:center;font-weight:bold}
+.topbar small{color:var(--muted)}
+.search{max-width:380px;width:100%;position:relative}
+.search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#f8faff;outline:none}
+.search input:focus{border-color:#8bb3ff}
+.content{padding:28px;max-width:1600px;margin:auto}
+.welcome{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}
+h1{font-size:25px;margin:0 0 8px;color:var(--navy)}
+.subtitle{font-size:13px;color:var(--muted);line-height:1.8}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:white;color:var(--text);border-radius:9px;padding:10px 14px}
+.btn-primary{background:var(--blue);color:white;border-color:var(--blue)}
+.btn:hover{filter:brightness(.97)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+.metric{padding:19px;position:relative;overflow:hidden}
+.metric-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.metric-label{font-size:13px;color:var(--muted)}
+.metric-icon{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;font-size:21px}
+.blue{background:#eaf1ff;color:#246bfd}.green{background:#e1f8f2;color:#07977f}
+.red{background:#fff0f0;color:#e34d59}.purple{background:#f0eaff;color:#7955db}
+.metric-number{font-size:30px;font-weight:750;color:var(--navy);margin:17px 0 7px}
+.metric-foot{font-size:12px;color:var(--muted)}
+.metric-foot strong{color:var(--teal)}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:19px 20px;border-bottom:1px solid var(--line)}
+.section-title h2{font-size:16px;margin:0;color:var(--navy)}
+.section-title small{color:var(--muted)}
+.middle{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:16px;margin-top:18px}
+.panel-body{padding:20px}
+.status-list{display:flex;flex-direction:column;gap:19px}
+.status-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px}
+.status-name{display:flex;align-items:center;gap:9px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.track{height:7px;background:#edf1f7;border-radius:9px;overflow:hidden;margin-top:9px}
+.track span{display:block;height:100%;border-radius:9px}
+.status-item{margin-bottom:1px}
+.status-value{font-weight:700}
+.chart-bars{height:135px;display:flex;align-items:end;justify-content:space-around;gap:10px;padding-top:10px}
+.bar-group{height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:8px;flex:1}
+.bar{width:65%;max-width:30px;min-height:8px;background:linear-gradient(180deg,#4e95ff,#246bfd);border-radius:6px 6px 2px 2px}
+.bar-label{font-size:10px;color:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:15px}
+.legend span{display:flex;align-items:center;gap:6px}
+.bottom{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);gap:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}
+th{background:#f8faff;color:#72849b;font-weight:600;text-align:right;padding:13px 16px}
+td{padding:14px 16px;border-top:1px solid #edf1f6}
+tbody tr:hover{background:#fafcff}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:650}
+.pill-red{background:#fff0f0;color:#d94350}.pill-blue{background:#eaf1ff;color:#246bfd}
+.pill-green{background:#e1f8f2;color:#07866f}.pill-amber{background:#fff5dc;color:#a56b00}
+.events{padding:4px 20px}
+.event{display:flex;gap:12px;padding:15px 0;border-bottom:1px solid #edf1f6}
+.event:last-child{border-bottom:0}
+.event-dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.event p{font-size:12px;line-height:1.8;margin:0}
+.event small{font-size:11px;color:var(--muted)}
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:17px}
+.quick{padding:15px;border:1px solid var(--line);border-radius:12px;background:white;text-align:right}
+.quick strong{display:block;font-size:13px;margin:10px 0 5px}
+.quick small{font-size:11px;color:var(--muted)}
+.footer{padding:22px 28px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.empty{display:none;padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:1100px){
+ .sidebar{width:205px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .middle,.bottom{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+ .app{display:block}.sidebar{width:100%;padding:12px}
+ .brand{padding:4px 5px 12px}.nav-label,.sidebar-foot{display:none}
+ .nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:12px;gap:5px}
+ .nav button{padding:10px 5px;justify-content:center;font-size:11px;gap:5px}
+ .nav-icon{width:auto}.topbar{padding:12px 15px;flex-wrap:wrap}
+ .search{order:3;max-width:none}.content{padding:18px 13px}
+ .welcome{align-items:flex-start;flex-direction:column}
+ h1{font-size:21px}.grid{gap:10px}.metric{padding:14px}
+ .metric-number{font-size:25px}.metric-label{font-size:12px}
+ .metric-icon{width:35px;height:35px;font-size:18px}
+ .section-title,.panel-body{padding:15px}.footer{padding:18px 14px}
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>نظام عمليات الإسعاف</h1>
-    <p>لوحة متابعة العمليات والموارد الإسعافية</p>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">✚</div>
+    <div><h2>مركز عمليات الإسعاف</h2><small>EMS Operations</small></div>
+  </div>
+  <div class="nav-label">القائمة الرئيسية</div>
+  <nav class="nav">
+    <button class="active" data-page="الرئيسية"><span class="nav-icon">▦</span>الرئيسية</button>
+    <button data-page="الحالات الإسعافية"><span class="nav-icon">✚</span>الحالات الإسعافية</button>
+    <button data-page="الوحدات الإسعافية"><span class="nav-icon">▰</span>الوحدات الإسعافية</button>
+    <button data-page="الموظفون"><span class="nav-icon">♙</span>الموظفون</button>
+    <button data-page="المحطات"><span class="nav-icon">⌖</span>المحطات والمواقع</button>
+    <button data-page="الجداول"><span class="nav-icon">▤</span>الجداول والمناوبات</button>
+    <button data-page="التقارير"><span class="nav-icon">▥</span>التقارير والتحليلات</button>
+    <button data-page="جودة البيانات"><span class="nav-icon">✓</span>جودة البيانات</button>
+  </nav>
+  <div class="nav-label">النظام</div>
+  <nav class="nav">
+    <button data-page="الإعدادات"><span class="nav-icon">⚙</span>الإعدادات</button>
+  </nav>
+  <div class="sidebar-foot">● الواجهة التجريبية تعمل<br>هذه النسخة للعرض والتطوير فقط.</div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <div class="top-left">
+      <div class="avatar">م</div>
+      <div><strong style="font-size:13px">مشرف العمليات</strong><br><small>لوحة التحكم</small></div>
+    </div>
+    <div class="search"><input id="search" placeholder="ابحث في الحالات الظاهرة..." aria-label="بحث"></div>
+    <small id="today"></small>
   </header>
-  <main>
-    <h2>لوحة المعلومات الرئيسية</h2>
-    <section class="cards">
-      <div class="card">
-        <h3>الحالات</h3>
-        <div class="number">0</div>
-        <p>الحالات المسجلة</p>
+  <div class="content">
+    <section class="welcome">
+      <div>
+        <h1 id="pageTitle">مرحبًا بك في مركز العمليات</h1>
+        <div class="subtitle">نظرة عامة على الأداء التشغيلي والموارد الإسعافية</div>
       </div>
-      <div class="card">
-        <h3>الوحدات الإسعافية</h3>
-        <div class="number">0</div>
-        <p>الوحدات المعروضة</p>
-      </div>
-      <div class="card">
-        <h3>الطاقم</h3>
-        <div class="number">0</div>
-        <p>أفراد الطاقم</p>
-      </div>
-      <div class="card">
-        <h3>جودة البيانات</h3>
-        <div class="number">جاهز</div>
-        <p>واجهة تجريبية أولية</p>
+      <div class="actions">
+        <button class="btn" id="refresh">↻ تحديث العرض</button>
+        <button class="btn btn-primary" id="newCase">＋ تسجيل حالة تجريبية</button>
       </div>
     </section>
-    <div class="note">
-      <strong>تنبيه:</strong>
-      هذه نسخة تجريبية للعرض فقط. الأرقام ليست بيانات حقيقية،
-      والنظام غير متصل بقاعدة بيانات أو نظام تسجيل دخول.
-      لا تدخل بيانات المرضى أو الموظفين.
-    </div>
-  </main>
+    <section class="grid">
+      <article class="card metric">
+        <div class="metric-top"><span class="metric-label">الحالات النشطة</span><span class="metric-icon red">✚</span></div>
+        <div class="metric-number" id="activeCases">17</div><div class="metric-foot">الحالات التي تتطلب متابعة</div>
+      </article>
+      <article class="card metric">
+        <div class="metric-top"><span class="metric-label">الوحدات المتاحة</span><span class="metric-icon green">▰</span></div>
+        <div class="metric-number">38</div><div class="metric-foot"><strong>جاهزية تجريبية</strong> · من أصل 42 وحدة</div>
+      </article>
+      <article class="card metric">
+        <div class="metric-top"><span class="metric-label">متوسط زمن الاستجابة</span><span class="metric-icon blue">◷</span></div>
+        <div class="metric-number">8.6 <span style="font-size:14px">دقيقة</span></div><div class="metric-foot">مؤشر توضيحي غير محسوب من بيانات حقيقية</div>
+      </article>
+      <article class="card metric">
+        <div class="metric-top"><span class="metric-label">أفراد الطاقم</span><span class="metric-icon purple">♙</span></div>
+        <div class="metric-number">124</div><div class="metric-foot">إجمالي تجريبي للطاقم</div>
+      </article>
+    </section>
+
+    <section class="middle">
+      <article class="card">
+        <div class="section-title"><h2>حالة الوحدات الإسعافية</h2><small>ملخص تجريبي</small></div>
+        <div class="panel-body">
+          <div class="status-list">
+            <div class="status-item"><div class="status-row"><span class="status-name"><i class="dot" style="background:#0c9b91"></i>متاحة</span><span class="status-value">38 وحدة</span></div><div class="track"><span style="width:90%;background:#0c9b91"></span></div></div>
+            <div class="status-item"><div class="status-row"><span class="status-name"><i class="dot" style="background:#246bfd"></i>في مهمة</span><span class="status-value">12 وحدة</span></div><div class="track"><span style="width:29%;background:#246bfd"></span></div></div>
+            <div class="status-item"><div class="status-row"><span class="status-name"><i class="dot" style="background:#e7a52b"></i>تحت التجهيز</span><span class="status-value">4 وحدات</span></div><div class="track"><span style="width:10%;background:#e7a52b"></span></div></div>
+            <div class="status-item"><div class="status-row"><span class="status-name"><i class="dot" style="background:#e34d59"></i>خارج الخدمة</span><span class="status-value">2 وحدة</span></div><div class="track"><span style="width:5%;background:#e34d59"></span></div></div>
+          </div>
+          <div class="legend"><span><i class="dot" style="background:#0c9b91"></i>متاحة</span><span><i class="dot" style="background:#246bfd"></i>في مهمة</span><span><i class="dot" style="background:#e7a52b"></i>تجهيز</span></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="section-title"><h2>مؤشر النشاط خلال اليوم</h2><small>توضيحي</small></div>
+        <div class="panel-body">
+          <div class="chart-bars" aria-label="رسم توضيحي للنشاط">
+            <div class="bar-group"><div class="bar" style="height:35%"></div><span class="bar-label">٦ ص</span></div>
+            <div class="bar-group"><div class="bar" style="height:58%"></div><span class="bar-label">٨ ص</span></div>
+            <div class="bar-group"><div class="bar" style="height:43%"></div><span class="bar-label">١٠ ص</span></div>
+            <div class="bar-group"><div class="bar" style="height:76%"></div><span class="bar-label">١٢ ظ</span></div>
+            <div class="bar-group"><div class="bar" style="height:55%"></div><span class="bar-label">٢ م</span></div>
+            <div class="bar-group"><div class="bar" style="height:88%"></div><span class="bar-label">٤ م</span></div>
+            <div class="bar-group"><div class="bar" style="height:64%"></div><span class="bar-label">٦ م</span></div>
+          </div>
+          <div class="subtitle" style="margin-top:15px">بيانات الرسم ثابتة لأغراض العرض، وليست سجلًا تشغيليًا.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="bottom">
+      <article class="card">
+        <div class="section-title"><h2>الحالات الأخيرة</h2><small id="caseCount">5 سجلات تجريبية</small></div>
+        <div class="table-wrap">
+          <table id="cases">
+            <thead><tr><th>رقم الحالة</th><th>نوع الحالة</th><th>الموقع</th><th>وقت الاستلام</th><th>الحالة</th><th>الإجراء</th></tr></thead>
+            <tbody id="caseRows">
+              <tr><td>DEMO-1001</td><td>حالة طارئة</td><td>موقع تجريبي ١</td><td>14:21</td><td><span class="pill pill-red">نشطة</span></td><td>—</td></tr>
+              <tr><td>DEMO-1002</td><td>حادث مروري</td><td>موقع تجريبي ٢</td><td>13:58</td><td><span class="pill pill-blue">قيد المتابعة</span></td><td>—</td></tr>
+              <tr><td>DEMO-1003</td><td>حالة طبية</td><td>موقع تجريبي ٣</td><td>13:42</td><td><span class="pill pill-green">مكتملة</span></td><td>—</td></tr>
+              <tr><td>DEMO-1004</td><td>حالة طارئة</td><td>موقع تجريبي ٤</td><td>13:17</td><td><span class="pill pill-amber">بانتظار وحدة</span></td><td>—</td></tr>
+              <tr><td>DEMO-1005</td><td>حالة طبية</td><td>موقع تجريبي ٥</td><td>12:56</td><td><span class="pill pill-green">مكتملة</span></td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="empty" id="empty">لا توجد نتائج مطابقة للبحث.</div>
+        </div>
+      </article>
+      <div>
+        <article class="card">
+          <div class="section-title"><h2>مركز التنبيهات</h2><small>تجريبي</small></div>
+          <div class="events">
+            <div class="event"><i class="event-dot" style="background:#e34d59"></i><div><p><strong>مراجعة حالة نشطة</strong><br>يوصى بمراجعة تفاصيل الحالة التجريبية.</p><small>تنبيه توضيحي</small></div></div>
+            <div class="event"><i class="event-dot" style="background:#e7a52b"></i><div><p><strong>مراجعة جاهزية الوحدات</strong><br>تأكد من تحديث بيانات التوفر عند ربط النظام.</p><small>تذكير تشغيلي</small></div></div>
+            <div class="event"><i class="event-dot" style="background:#246bfd"></i><div><p><strong>جودة البيانات</strong><br>لم يتم إجراء فحص فعلي على قاعدة بيانات.</p><small>معلومة النظام</small></div></div>
+          </div>
+        </article>
+        <div class="quick-grid">
+          <button class="quick" id="quickNew"><span class="metric-icon red">✚</span><strong>حالة تجريبية جديدة</strong><small>إضافة صف للعرض</small></button>
+          <button class="quick" id="quickSearch"><span class="metric-icon blue">⌕</span><strong>بحث سريع</strong><small>البحث في الجدول</small></button>
+          <button class="quick" id="quickReport"><span class="metric-icon purple">▥</span><strong>تقرير تجريبي</strong><small>ملخص السجلات الظاهرة</small></button>
+          <button class="quick" id="quickQuality"><span class="metric-icon green">✓</span><strong>جودة البيانات</strong><small>توضيح حالة النسخة</small></button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><span>مركز عمليات الإسعاف · واجهة تجريبية</span><span>غير مخصص للاستخدام التشغيلي الفعلي</span></footer>
+</main>
+</div>
+<script>
+const date = new Date();
+document.getElementById('today').textContent =
+  date.toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+const rows = document.getElementById('caseRows');
+const search = document.getElementById('search');
+function filterRows(){
+  let shown=0;
+  [...rows.rows].forEach(row=>{
+    const match=row.innerText.toLowerCase().includes(search.value.trim().toLowerCase());
+    row.style.display=match?'':'none';
+    if(match) shown++;
+  });
+  document.getElementById('empty').style.display=shown?'none':'block';
+  document.getElementById('caseCount').textContent=shown+' سجلات ظاهرة';
+}
+search.addEventListener('input',filterRows);
+document.getElementById('refresh').addEventListener('click',()=>{
+  document.getElementById('today').textContent =
+    date.toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+  alert('تم تحديث عرض الواجهة التجريبية. لم يتم الاتصال بقاعدة بيانات.');
+});
+function addDemoCase(){
+  const n=1000+rows.rows.length+1;
+  const tr=document.createElement('tr');
+  ['DEMO-'+n,'حالة تجريبية','موقع غير حقيقي','--'].forEach(value=>{
+    const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
+  });
+  const status=document.createElement('td');
+  status.innerHTML='<span class="pill pill-red">تجريبية</span>';tr.appendChild(status);
+  const action=document.createElement('td');action.textContent='—';tr.appendChild(action);
+  rows.prepend(tr);filterRows();
+  document.getElementById('activeCases').textContent =
+    Number(document.getElementById('activeCases').textContent)+1;
+}
+document.getElementById('newCase').addEventListener('click',addDemoCase);
+document.getElementById('quickNew').addEventListener('click',addDemoCase);
+document.getElementById('quickSearch').addEventListener('click',()=>{
+  search.focus();search.scrollIntoView({behavior:'smooth',block:'center'});
+});
+document.getElementById('quickReport').addEventListener('click',()=>{
+  alert('عدد السجلات الظاهرة: '+[...rows.rows].filter(r=>r.style.display!=='none').length+
+  '\\nهذا ملخص تجريبي وليس تقريرًا تشغيليًا.');
+});
+document.getElementById('quickQuality').addEventListener('click',()=>{
+  alert('جودة البيانات غير مفحوصة فعليًا. يلزم ربط قاعدة بيانات لإجراء الفحوصات.');
+});
+document.querySelectorAll('.nav button').forEach(button=>{
+  button.addEventListener('click',()=>{
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+    button.classList.add('active');
+    const page=button.dataset.page;
+    document.getElementById('pageTitle').textContent =
+      page==='الرئيسية'?'مرحبًا بك في مركز العمليات':page;
+    if(page!=='الرئيسية'){
+      alert('قسم '+page+' لم يتم ربطه بعد. هذه النسخة واجهة تجريبية قيد التطوير.');
+    }
+  });
+});
+</script>
 </body>
 </html>
-```
