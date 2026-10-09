@@ -160,6 +160,45 @@ tbody tr:hover{background:#fafcff}
         <button class="btn btn-primary" id="newCase">＋ تسجيل حالة تجريبية</button>
       </div>
     </section>
+    
+<div id="caseForm" class="card" style="display:none;margin-bottom:20px;padding:22px">
+  <h2 style="margin-top:0">تسجيل حالة إسعافية جديدة</h2>
+  <form id="newCaseForm">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px">
+      <label>نوع الحالة
+        <select id="caseType" required style="display:block;width:100%;padding:11px;margin-top:7px;border:1px solid #e5ebf3;border-radius:8px">
+          <option value="">اختر النوع</option>
+          <option>حالة طبية</option>
+          <option>حادث مروري</option>
+          <option>حالة طارئة</option>
+          <option>نقل طبي مجدول</option>
+        </select>
+      </label>
+      <label>الأولوية
+        <select id="casePriority" required style="display:block;width:100%;padding:11px;margin-top:7px;border:1px solid #e5ebf3;border-radius:8px">
+          <option>عادية</option>
+          <option>عالية</option>
+          <option>حرجة</option>
+        </select>
+      </label>
+      <label>الموقع التجريبي
+        <input id="caseLocation" required placeholder="مثال: موقع تجريبي ٦" style="display:block;width:100%;padding:11px;margin-top:7px;border:1px solid #e5ebf3;border-radius:8px">
+      </label>
+      <label>حالة المهمة
+        <select id="caseStatus" style="display:block;width:100%;padding:11px;margin-top:7px;border:1px solid #e5ebf3;border-radius:8px">
+          <option>جديدة</option>
+          <option>قيد المتابعة</option>
+          <option>بانتظار وحدة</option>
+        </select>
+      </label>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-primary" type="submit">حفظ الحالة التجريبية</button>
+      <button class="btn" type="button" id="cancelCase">إلغاء</button>
+    </div>
+    <p style="font-size:12px;color:#7b8ba1">نسخة تجريبية: السجل لن يُحفظ في قاعدة بيانات.</p>
+  </form>
+</div>
     <section class="grid">
       <article class="card metric">
         <div class="metric-top"><span class="metric-label">الحالات النشطة</span><span class="metric-icon red">✚</span></div>
@@ -283,6 +322,67 @@ function addDemoCase(){
     Number(document.getElementById('activeCases').textContent)+1;
 }
 document.getElementById('newCase').addEventListener('click',addDemoCase);
+  
+const caseForm = document.getElementById('caseForm');
+const newCaseForm = document.getElementById('newCaseForm');
+
+document.getElementById('newCase').addEventListener('click', () => {
+  caseForm.style.display = 'block';
+  caseForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('cancelCase').addEventListener('click', () => {
+  newCaseForm.reset();
+  caseForm.style.display = 'none';
+});
+
+newCaseForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const nextId = 1000 + rows.rows.length + 1;
+  const id = 'DEMO-' + nextId;
+  const type = document.getElementById('caseType').value;
+  const priority = document.getElementById('casePriority').value;
+  const location = document.getElementById('caseLocation').value.trim();
+  const status = document.getElementById('caseStatus').value;
+  const now = new Date().toLocaleTimeString('ar-SA', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  if (!location) return;
+
+  const tr = document.createElement('tr');
+
+  [id, type + ' · ' + priority, location, now].forEach(value => {
+    const td = document.createElement('td');
+    td.textContent = value;
+    tr.appendChild(td);
+  });
+
+  const statusCell = document.createElement('td');
+  const pill = document.createElement('span');
+  pill.className = 'pill pill-blue';
+  pill.textContent = status;
+  statusCell.appendChild(pill);
+  tr.appendChild(statusCell);
+
+  const actionCell = document.createElement('td');
+  actionCell.textContent = '—';
+  tr.appendChild(actionCell);
+
+  rows.prepend(tr);
+  document.getElementById('activeCases').textContent =
+    Number(document.getElementById('activeCases').textContent) + 1;
+
+  newCaseForm.reset();
+  caseForm.style.display = 'none';
+  filterRows();
+  document.getElementById('cases').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
 document.getElementById('quickNew').addEventListener('click',addDemoCase);
 document.getElementById('quickSearch').addEventListener('click',()=>{
   search.focus();search.scrollIntoView({behavior:'smooth',block:'center'});
