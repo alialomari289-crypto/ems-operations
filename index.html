@@ -1,0 +1,88 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نظام عمليات الإسعاف</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #17324d;
+    }
+    header {
+      background: #12304a;
+      color: white;
+      padding: 24px;
+    }
+    main {
+      max-width: 1000px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #00000010;
+    }
+    .number {
+      font-size: 30px;
+      font-weight: bold;
+      color: #087f8c;
+    }
+    .note {
+      background: #fff7df;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 20px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>نظام عمليات الإسعاف</h1>
+    <p>لوحة متابعة العمليات والموارد الإسعافية</p>
+  </header>
+  <main>
+    <h2>لوحة المعلومات الرئيسية</h2>
+    <section class="cards">
+      <div class="card">
+        <h3>الحالات</h3>
+        <div class="number">0</div>
+        <p>الحالات المسجلة</p>
+      </div>
+      <div class="card">
+        <h3>الوحدات الإسعافية</h3>
+        <div class="number">0</div>
+        <p>الوحدات المعروضة</p>
+      </div>
+      <div class="card">
+        <h3>الطاقم</h3>
+        <div class="number">0</div>
+        <p>أفراد الطاقم</p>
+      </div>
+      <div class="card">
+        <h3>جودة البيانات</h3>
+        <div class="number">جاهز</div>
+        <p>واجهة تجريبية أولية</p>
+      </div>
+    </section>
+    <div class="note">
+      <strong>تنبيه:</strong>
+      هذه نسخة تجريبية للعرض فقط. الأرقام ليست بيانات حقيقية،
+      والنظام غير متصل بقاعدة بيانات أو نظام تسجيل دخول.
+      لا تدخل بيانات المرضى أو الموظفين.
+    </div>
+  </main>
+</body>
+</html>
+```
